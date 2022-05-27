@@ -1,7 +1,13 @@
-version = "/ Version = 0.2"
+# list Syntax listName[operation][language][position]
+#[do], 0 = addition, 1 = subtract, 2 = multiplication, 3 = division.
+#[lS], 0 = Spanish, 1 = English
+
+version = "/ Version = 0.3"
+#for Curious and split.
+import re
+
 # to clear the console
 import os
-import re
 def clear():
     os.system('cls' if os.name=='nt' else 'clear')
 
@@ -12,19 +18,27 @@ exitc = 0
 tm = 0
 sep = "-" * 80
 language = 0
+do = 0
 title = "<|>  xKaaay Calculator " + version + "  <|>"
 print(title.center(80, " "))
 
 # List of the variations depending on the language / [0] = Spanish, [1] = English)
 l = [["\n[!] Demasiados intentos fallidos [!]\n", "=> Opción: ", "\n                     [!] Por favor, elije según el menú. [!]\n", "\n[!] Has intentado demasiadas veces valores erroneos. [!]\n", \
-"=> Por favor, digita tu suma con [+] : ", "[!] = Sólo hay un valor para sumar, agrega más. o no estás usando el signo correcto", "\n[!] El resultado de la suma es: ", \
-"\n=> Quieres hacer otra suma o ir al menú? [SUMA - MENU - SALIR] : ", "\n[!] = Gracias por usar la calculadora.   /  xKaaay. [!]\n", \
-"=> Por favor, digita tu resta con [-] : ", "\n[!] El resultado de la resta es: ", "\n=> Quieres hacer otra resta o ir al menú? [RESTA - MENU - SALIR] : "], \
+"=> Por favor, digita tu", "[!] = Sólo hay un valor para sumar, agrega más. o no estás usando el signo correcto", "\n[!] El resultado de la", \
+"\n=> ¿Quieres hacer otra", "\n[!] = Gracias por usar la calculadora.   /  xKaaay. [!]\n"], \
     ["\n[!] Too many wrong attemps [!]\n", "=> Option: ", "\n                     [!] Please, select according to the menu. [!]\n", "\n[!] You've tried wrong values too many times. [!]\n", \
-"=> Please, type your addition with [+] : ", "[!] = There's only one digit, add more. or you're not using the right sign", "\n[!] The total of the addition is: ", \
-"\n=> Want to do another addition or go to menu? [ADDITION - MENU - EXIT] : ", "\n[!] = Thanks for using the calculator.   /  xKaaay. [!]\n", \
-"=> Please, type your subtract with [-] : ", "\n[!] The total of the subtract is: ", "\n=> Want to do another subtract or go to menu? [SUBTRACT - MENU - EXIT] : "]]
+"=> Please, type your", "[!] = There's only one digit, add more. or you're not using the right sign", "\n[!] The total of the", \
+"\n=> Want to do another", "\n[!] = Thanks for using the calculator.   /  xKaaay. [!]\n"]]
 
+# Operations
+o = [[["+", "suma"], ["+", "addition"]], \
+        [["-", "resta"], ["-", "subtract"]], \
+            [["*", "multiplicación"], ["*", "multiplication"]], \
+                [["/", "división"], ["/", "division"]]]
+
+# Variations
+v = ["con", "es", "o ir al menú?", "salir"],\
+    ["with", "is", "or go to menu?", "exit"]
 # There are some people that just want the world burn
 def Curious(listvar):
     listvar = re.sub("[,;.:_<>{^}´¨~¿¡'?)(&%$#!|°¬a'bcdefghijklmnopqrstuvwxyzñ ]","",listvar)
@@ -58,8 +72,7 @@ def split(vsplit):
     else:
         return vsplit
 
-# Addition formula
-def addition():
+def dothemath():
     global length
     global tries
     global exitc
@@ -67,96 +80,55 @@ def addition():
     while length == False:
         tries += 1
         if tries > 3:
-            print(l[lS][3]) # [3] = You've tried wrong values too many times.
+            print(l[lS][3]) # You've tried wrong values too many times.
             break
 
-        var = input(l[lS][4]) # [9] = Please, type your addition with [+].
+        var = input(f"{l[lS][4]} {o[do][lS][1]} {v[lS][0]} [{o[do][lS][0]}]: ") # Please, type your [do] [variation] [sign].
         var = Curious(var)
         var = split(var)
 
         if len(var) <= 1:
-            print(l[lS][5] + "[+]. [!]") # [5] = There's only one digit, add more. or you're not using the right sign [+].
+            print(f"{l[lS][5]} [{o[do][lS][0]}] [!]") # There's only one digit, add more. or you're not using the right sign [do].
             print(sep)
         else:
             if "" in var:
                 for i in range(var.count("")):
                     var.remove("")
             res = 0
-            for i in range(len(var)):
-                op = int(var[i])
-                res += op
+            if do == 0: # if do = addition
+                for i in range(len(var)):
+                    op = int(var[i])
+                    res += op
+
+            elif do == 1: # if do = subtract
+                for i in range(len(var)):
+                    if indexSubs: #check if the subtract starts with -
+                        op = int(var[i])
+                        res -= op
+                    else:
+                        op = int(var[i])
+                        res = int(var[0])
+                        res -= op
+
             length = True
             print(sep)
-            print(l[lS][6], res, " [!]\n") # [6] = The total of the addition is.
+            print(f"{l[lS][6]} {o[do][lS][1]} {v[lS][1]}: {res}  [!]\n") # The total of the [do] [variation].
             print(sep)
-            exitm = input(l[lS][7]) # [7] = Want to do another addition or go to menu? [ADDITION - MENU - EXIT].
+            exitm = input(f"{l[lS][7]} {o[do][lS][1]} {v[lS][2]} [{o[do][lS][1].upper()} - MENU - {v[lS][3].upper()}]: ") # Want to do another [do] or go to menu? [[do] - MENU - [EXIT]].
             exitm = exitm.lower()
-            if exitm == "suma" or "suma" in exitm or exitm == "addition" or "addition" in exitm:
+            if exitm == o[do][lS][1] or o[do][lS][1] in exitm:
                 print("\n", sep)
                 tries, length = 0, False
 
-            elif exitm == "menu" or "menu" in exitm:
+            elif exitm == "menu" or "menu" in exitm or "menú" in exitm:
                 clear()
                 tries, length, exitc = 0, False, 0
                 break
             else:
                 print("\n", sep)
-                print(l[lS][8]) # [8] = Thanks for using the calculator.
+                print(l[lS][8]) # Thanks for using the calculator.
                 print(sep)
                 break
-
-def subtract():
-    global length
-    global tries
-    global exitc
-
-    while length == False:
-        tries += 1
-        if tries > 3:
-            print(l[lS][3]) # [3] = You've tried wrong values too many times.
-            break
-
-        var = input(l[lS][9]) # [4] = Please, type your subtract with [-].
-        var = Curious(var)
-        var = split(var)        
-
-
-        if len(var) <= 1:
-            print(l[lS][5], "[-]. [!]") # [5] = There's only one digit, add more. or you're not using the right sign.
-            print(sep)
-        else:
-            if "" in var:
-                for i in range(var.count("")):
-                    var.remove("")
-            res = 0
-            for i in range(len(var)):
-                if indexSubs:
-                    op = int(var[i])
-                    res -= op
-                else:
-                    op = int(var[i])
-                    res = int(var[0])
-                    res -= op
-            length = True
-            print(sep)
-            print(l[lS][10], res, " [!]\n") # [6] = The total of the subtract is.
-            print(sep)
-            exitm = input(l[lS][11]) # [11] = Want to do another subtract or go to menu? [SUBTRACT - MENU - EXIT].
-            exitm = exitm.lower()
-            if exitm == "resta" or "resta" in exitm or exitm == "subtract" or "subtract" in exitm:
-                print("\n", sep)
-                tries, length = 0, False
-
-            elif exitm == "menu" or "menu" in exitm:
-                clear()
-                tries, length, exitc = 0, False, 0
-                break
-            else:
-                print("\n", sep)
-                print(l[lS][8]) # [8] = Thanks for using the calculator.
-                print(sep)
-                break
-
 
 # Second menu with all the options available
 def menu():
@@ -164,6 +136,7 @@ def menu():
     global tries
     global exitc
     global tm
+    global do
 
     while exitc == 0:
         tm += 1
@@ -177,7 +150,7 @@ def menu():
             [2] = Resta.
             [3] = Multiplicación. [Aún no]
             [4] = División. [Aún no]
-            [5] = Salir. [Aún no]
+            [5] = Salir.
             """)
         else: #If the user has chosen english
             print(""" 
@@ -187,7 +160,7 @@ def menu():
             [2] = Subtraction.
             [3] = Multiplication. [Not yet]
             [4] = Division. [Not yet]
-            [5] = Exit. [Not yet]
+            [5] = Exit.
             """)
         if tm > 3:
             clear()
@@ -200,19 +173,28 @@ def menu():
             opc = input(l[lS][1]) # [1] = Option:
             opc = opc.lower()
 
-            if opc == "suma" or opc == "1" or "suma" in opc or opc == "addition" or "addition" in opc:
+            if opc == "1" or o[0][0][1] in opc or o[0][1][1] in opc:
                 clear()
-                addition()
-            elif opc == "resta" or opc == "2" or "resta" in opc or opc == "subtraction" or "subtraction" in opc:
+                do = 0
+                dothemath()
+            elif opc == "2" or o[1][0][1] in opc or o[1][1][1] in opc:
                 clear()
-                subtract()
+                do = 1
+                dothemath()
+            elif opc == "salir" or "salir" in opc or opc == "5" or opc == "exit" or "exit" in opc:
+                clear()
+                print("\n" + sep)
+                print(l[lS][8]) # [8] = Thanks for using the calculator.
+                print(sep)
+                break
             else:
                 clear()
                 print(sep)
                 print(l[lS][2]) # [2] = Please, select according to the menu.
                 exitc = 0
 
-# First menu, select the language
+
+# First menu, selecting the language
 while language == 0:
     language = 1
     print(sep)
@@ -227,7 +209,7 @@ while language == 0:
     if langSel == "1" or langSel == "español" or "español" in langSel:
         lS = 0
         clear(), menu()
-    elif langSel == "2" or langSel == "english" or "enlish" in langSel:
+    elif langSel == "2" or langSel == "english" or "english" in langSel:
         lS = 1
         clear(), menu()
     else:
