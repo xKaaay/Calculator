@@ -1,4 +1,4 @@
-# Calculator V 0.3
+# Calculator V 0.3.1
 Just a calculator project in english and spanish, nothing special, don't know if am i doing it right, i'm still learning :)
 
 #V.01
@@ -15,3 +15,6 @@ Just a calculator project in english and spanish, nothing special, don't know if
 - More comments.
 - Check if the subtract starts with "-"
 - Tried to improve the code.
+
+#V0.3.1
+- little ulpdate with just less code, deleted unnecessary things and more comments of course.
