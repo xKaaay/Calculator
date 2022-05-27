@@ -1,24 +1,24 @@
-# list Syntax listName[operation][language][position]
+#[do] Syntax listName[operation][language][position]
 #[do], 0 = addition, 1 = subtract, 2 = multiplication, 3 = division.
+
+#[lS] Syntax listName[langauge][position]
 #[lS], 0 = Spanish, 1 = English
 
-version = "/ Version = 0.3"
-#for Curious and split.
-import re
-
-# to clear the console
-import os
+version = "/ Version = 0.3.1"
+import re # for Curious people
+import os # To clear the console
 def clear():
     os.system('cls' if os.name=='nt' else 'clear')
 
-# This will be for later
+# This will be for later, don't ask why
 length = False
 tries = 0
 exitc = 0
-tm = 0
 sep = "-" * 80
 language = 0
 do = 0
+
+# Cute title Owo
 title = "<|>  xKaaay Calculator " + version + "  <|>"
 print(title.center(80, " "))
 
@@ -39,6 +39,7 @@ o = [[["+", "suma"], ["+", "addition"]], \
 # Variations
 v = ["con", "es", "o ir al menú?", "salir"],\
     ["with", "is", "or go to menu?", "exit"]
+
 # There are some people that just want the world burn
 def Curious(listvar):
     listvar = re.sub("[,;.:_<>{^}´¨~¿¡'?)(&%$#!|°¬a'bcdefghijklmnopqrstuvwxyzñ ]","",listvar)
@@ -73,14 +74,13 @@ def split(vsplit):
         return vsplit
 
 def dothemath():
-    global length
-    global tries
-    global exitc
+    global length, tries, exitc
 
     while length == False:
-        tries += 1
-        if tries > 3:
-            print(l[lS][3]) # You've tried wrong values too many times.
+        tries += 1 
+        if tries > 3: # We don't want an infinite loop
+            clear()
+            print(sep + "\n" + l[lS][0] + "\n" + sep)
             break
 
         var = input(f"{l[lS][4]} {o[do][lS][1]} {v[lS][0]} [{o[do][lS][0]}]: ") # Please, type your [do] [variation] [sign].
@@ -90,6 +90,7 @@ def dothemath():
         if len(var) <= 1:
             print(f"{l[lS][5]} [{o[do][lS][0]}] [!]") # There's only one digit, add more. or you're not using the right sign [do].
             print(sep)
+
         else:
             if "" in var:
                 for i in range(var.count("")):
@@ -110,7 +111,7 @@ def dothemath():
                         res = int(var[0])
                         res -= op
 
-            length = True
+            length = True # Break the loop
             print(sep)
             print(f"{l[lS][6]} {o[do][lS][1]} {v[lS][1]}: {res}  [!]\n") # The total of the [do] [variation].
             print(sep)
@@ -122,7 +123,7 @@ def dothemath():
 
             elif exitm == "menu" or "menu" in exitm or "menú" in exitm:
                 clear()
-                tries, length, exitc = 0, False, 0
+                tries, length, exitc = 0, False, 0 # Reactivate the loop
                 break
             else:
                 print("\n", sep)
@@ -132,15 +133,10 @@ def dothemath():
 
 # Second menu with all the options available
 def menu():
-    global length
-    global tries
-    global exitc
-    global tm
-    global do
-
+    global length, tries, exitc, do
     while exitc == 0:
-        tm += 1
-        exitc = 1
+        tries += 1
+        exitc = 1 # Break the loop
         print(sep)
         if lS == 0:  #If the user has chosen spanish
             print(""" 
@@ -162,11 +158,9 @@ def menu():
             [4] = Division. [Not yet]
             [5] = Exit.
             """)
-        if tm > 3:
+        if tries > 3: # We don't want an infinite loop
             clear()
-            print(sep)
-            print(l[lS][0]) # [0] = Too many wrong attemps. 
-            print(sep)
+            print(sep + "\n" + l[lS][0] + "\n" + sep)
             break
         else:
             print(sep)
@@ -175,11 +169,11 @@ def menu():
 
             if opc == "1" or o[0][0][1] in opc or o[0][1][1] in opc:
                 clear()
-                do = 0
+                tries = 0
                 dothemath()
             elif opc == "2" or o[1][0][1] in opc or o[1][1][1] in opc:
                 clear()
-                do = 1
+                do, tries = 1, 0
                 dothemath()
             elif opc == "salir" or "salir" in opc or opc == "5" or opc == "exit" or "exit" in opc:
                 clear()
@@ -191,29 +185,36 @@ def menu():
                 clear()
                 print(sep)
                 print(l[lS][2]) # [2] = Please, select according to the menu.
-                exitc = 0
+                exitc = 0 # Reactivate the loop
 
 
 # First menu, selecting the language
 while language == 0:
+    tries += 1
     language = 1
     print(sep)
-    print("Select a language | Elije un idioma")
     print("""
+    Select a language | Elije un idioma
+
     [1] = Español
     [2] = English
     """)
+
+    if tries > 3: # We don't want an infinite loop
+        clear()
+        print(sep + "\n" + l[lS][0] + "\n" + sep)
+        exit()
+
     print(sep)
     langSel = input("=> ")
     langSel = langSel.lower()
     if langSel == "1" or langSel == "español" or "español" in langSel:
-        lS = 0
+        lS, tries = 0, 0
         clear(), menu()
     elif langSel == "2" or langSel == "english" or "english" in langSel:
-        lS = 1
+        lS, tries = 1, 0
         clear(), menu()
     else:
         clear()
-        print(sep)
-        print("\n   [!] Wrong command / Comando erroneo[!]\n")
+        print(sep + "\n   [!] Wrong command / Comando erroneo[!]\n")
         language = 0
