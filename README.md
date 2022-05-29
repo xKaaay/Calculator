@@ -1,4 +1,4 @@
-# Calculator V 1.0
+# Calculator V 1.0.1 (Last update)
 Just a calculator project in english and spanish, nothing special, don't know if am i doing it right, i'm still learning :)
 
 #V.01
@@ -24,3 +24,8 @@ Just a calculator project in english and spanish, nothing special, don't know if
 - Added division.
 - Some fixes.
 - More compact code.
+
+#V1.0.1
+- Just deleted some lines of if - else
+- This will be the last update since i want to move on to another projects.
+- (Last update unless there's a bug or something to improve)
