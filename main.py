@@ -1,16 +1,18 @@
+# Ended on 29/05/2022 - xKaaay - :)
+
 #[do] Syntax listName[operation][language][position]
 #[do], 0 = addition, 1 = subtract, 2 = multiplication, 3 = division.
 
 #[lS] Syntax listName[langauge][position]
 #[lS], 0 = Spanish, 1 = English
 
-tries, exitc, language, do, length, sep, indexSubs = 0, 0, 0, 0, False, "-" * 80, False # This will be for later, don't ask why
+tries, exitc, language, do, length, sep, indexSubs = 0, 0, 0, 0, False, "-" * 80, False # This will be for later, don't ask why for :)
 
-version = "/ Version = 1.0"
+version = "/ Version = 1.0.1"
 import re # for Curious people
 import os # To clear the console
 def clear():
-    os.system('cls' if os.name=='nt' else 'clear')
+    os.system('cls' if os.name=='nt' else 'clear') # This will work on Windows and Linux
 
 # Cute title Owo
 title = "<|>  xKaaay Calculator " + version + "  <|>"
@@ -45,8 +47,6 @@ def split(vsplit):
     if "*" in vsplit:
         if vsplit.startswith("-") or "-" in vsplit:
             indexSubs = True
-        else: 
-            indexSubs = False
 
         vsplit = re.sub("[-+/]", "", vsplit)
         vsplit = vsplit.split("*")
@@ -55,8 +55,6 @@ def split(vsplit):
         if "-" in vsplit:
             if vsplit.count("-") == 1 or vsplit.count("-") % 2 == 1:
                 indexSubs = True
-            else: 
-                indexSubs = False
 
         vsplit = re.sub("[-+*]", "", vsplit)
         vsplit = vsplit.split("/")
@@ -69,9 +67,6 @@ def split(vsplit):
         vsplit = re.sub("[*+/]", "", vsplit)
         if vsplit.startswith("-") or "-" in vsplit[0]:
             indexSubs = True
-        else: 
-            indexSubs = False
-
         vsplit = vsplit.split("-")
 
     if type(vsplit) is not list:
