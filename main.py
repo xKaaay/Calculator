@@ -4,19 +4,13 @@
 #[lS] Syntax listName[langauge][position]
 #[lS], 0 = Spanish, 1 = English
 
-version = "/ Version = 0.3.1"
+tries, exitc, language, do, length, sep, indexSubs = 0, 0, 0, 0, False, "-" * 80, False # This will be for later, don't ask why
+
+version = "/ Version = 1.0"
 import re # for Curious people
 import os # To clear the console
 def clear():
     os.system('cls' if os.name=='nt' else 'clear')
-
-# This will be for later, don't ask why
-length = False
-tries = 0
-exitc = 0
-sep = "-" * 80
-language = 0
-do = 0
 
 # Cute title Owo
 title = "<|>  xKaaay Calculator " + version + "  <|>"
@@ -49,10 +43,21 @@ def Curious(listvar):
 def split(vsplit):
     global indexSubs
     if "*" in vsplit:
+        if vsplit.startswith("-") or "-" in vsplit:
+            indexSubs = True
+        else: 
+            indexSubs = False
+
         vsplit = re.sub("[-+/]", "", vsplit)
         vsplit = vsplit.split("*")
     
     if "/" in vsplit:
+        if "-" in vsplit:
+            if vsplit.count("-") == 1 or vsplit.count("-") % 2 == 1:
+                indexSubs = True
+            else: 
+                indexSubs = False
+
         vsplit = re.sub("[-+*]", "", vsplit)
         vsplit = vsplit.split("/")
 
@@ -66,9 +71,10 @@ def split(vsplit):
             indexSubs = True
         else: 
             indexSubs = False
+
         vsplit = vsplit.split("-")
 
-    if type(vsplit) is not type(l):
+    if type(vsplit) is not list:
         return [vsplit]
     else:
         return vsplit
@@ -110,18 +116,36 @@ def dothemath():
                         op = int(var[i])
                         res = int(var[0])
                         res -= op
+            if do == 2: # if do = multiplication
+                if indexSubs:
+                    res = -1
+                else:
+                    res = 1
+                for i in range(len(var)):
+                    op = int(var[i])
+                    res *= op
+            if do == 3: # if do = division
+                if indexSubs:
+                    res = int(var[0]) / -1
+                else:
+                    res = int(var[0]) / 1
+                for i in range(1, len(var)):
+                    op = int(var[i])
+                    res /= op
 
             length = True # Break the loop
+
             print(sep)
             print(f"{l[lS][6]} {o[do][lS][1]} {v[lS][1]}: {res}  [!]\n") # The total of the [do] [variation].
             print(sep)
             exitm = input(f"{l[lS][7]} {o[do][lS][1]} {v[lS][2]} [{o[do][lS][1].upper()} - MENU - {v[lS][3].upper()}]: ") # Want to do another [do] or go to menu? [[do] - MENU - [EXIT]].
             exitm = exitm.lower()
-            if exitm == o[do][lS][1] or o[do][lS][1] in exitm:
+
+            if exitm == o[do][lS][1] or o[do][lS][1] in exitm or exitm == "1":
                 print("\n", sep)
                 tries, length = 0, False
 
-            elif exitm == "menu" or "menu" in exitm or "menú" in exitm:
+            elif exitm == "menu" or "menu" in exitm or "menú" in exitm or exitm == "2":
                 clear()
                 tries, length, exitc = 0, False, 0 # Reactivate the loop
                 break
@@ -144,8 +168,8 @@ def menu():
 
             [1] = Suma.
             [2] = Resta.
-            [3] = Multiplicación. [Aún no]
-            [4] = División. [Aún no]
+            [3] = Multiplicación.
+            [4] = División.
             [5] = Salir.
             """)
         else: #If the user has chosen english
@@ -154,8 +178,8 @@ def menu():
 
             [1] = Addition.
             [2] = Subtraction.
-            [3] = Multiplication. [Not yet]
-            [4] = Division. [Not yet]
+            [3] = Multiplication.
+            [4] = Division.
             [5] = Exit.
             """)
         if tries > 3: # We don't want an infinite loop
@@ -174,6 +198,14 @@ def menu():
             elif opc == "2" or o[1][0][1] in opc or o[1][1][1] in opc:
                 clear()
                 do, tries = 1, 0
+                dothemath()
+            elif opc == "3" or o[2][0][1] in opc or o[2][1][1] in opc:
+                clear()
+                do, tries = 2, 0
+                dothemath()
+            elif opc == "4" or o[3][0][1] in opc or o[3][1][1] in opc:
+                clear ()
+                do, tries = 3, 0
                 dothemath()
             elif opc == "salir" or "salir" in opc or opc == "5" or opc == "exit" or "exit" in opc:
                 clear()
