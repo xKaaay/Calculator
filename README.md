@@ -1,4 +1,4 @@
-# Calculator V 0.3.1
+# Calculator V 1.0
 Just a calculator project in english and spanish, nothing special, don't know if am i doing it right, i'm still learning :)
 
 #V.01
@@ -18,3 +18,9 @@ Just a calculator project in english and spanish, nothing special, don't know if
 
 #V0.3.1
 - little ulpdate with just less code, deleted unnecessary things and more comments of course.
+
+#V1.0
+- Added multiplication.
+- Added division.
+- Some fixes.
+- More compact code.
