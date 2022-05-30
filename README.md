@@ -1,4 +1,4 @@
-# Calculator V 1.0.1 (Last update)
+# Calculator V 1.0.2
 Just a calculator project in english and spanish, nothing special, don't know if am i doing it right, i'm still learning :)
 
 #V.01
@@ -29,3 +29,6 @@ Just a calculator project in english and spanish, nothing special, don't know if
 - Just deleted some lines of if - else
 - This will be the last update since i want to move on to another projects.
 - (Last update unless there's a bug or something to improve)
+
+#V1.0.2
+- Added some exceptions to prevent errors.
