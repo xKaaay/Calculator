@@ -8,7 +8,7 @@
 
 tries, exitc, language, do, length, sep, indexSubs = 0, 0, 0, 0, False, "-" * 80, False # This will be for later, don't ask why for :)
 
-version = "/ Version = 1.0.1"
+version = "/ Version = 1.0.2"
 import re # for Curious people
 import os # To clear the console
 def clear():
@@ -93,42 +93,50 @@ def dothemath():
             print(sep)
 
         else:
-            if "" in var:
-                for i in range(var.count("")):
-                    var.remove("")
-            res = 0
-            if do == 0: # if do = addition
-                for i in range(len(var)):
-                    op = int(var[i])
-                    res += op
-
-            elif do == 1: # if do = subtract
-                for i in range(len(var)):
-                    if indexSubs: #check if the subtract starts with -
+            try:
+                if "" in var:
+                    for i in range(var.count("")):
+                        var.remove("")
+                res = 0
+                if do == 0: # if do = addition
+                    for i in range(len(var)):
                         op = int(var[i])
-                        res -= op
+                        res += op
+
+                elif do == 1: # if do = subtract
+                    for i in range(len(var)):
+                        if indexSubs: #check if the subtract starts with -
+                            op = int(var[i])
+                            res -= op
+                        else:
+                            op = int(var[i])
+                            res = int(var[0])
+                            res -= op
+                if do == 2: # if do = multiplication
+                    if indexSubs:
+                        res = -1
                     else:
+                        res = 1
+                    for i in range(len(var)):
                         op = int(var[i])
-                        res = int(var[0])
-                        res -= op
-            if do == 2: # if do = multiplication
-                if indexSubs:
-                    res = -1
-                else:
-                    res = 1
-                for i in range(len(var)):
-                    op = int(var[i])
-                    res *= op
-            if do == 3: # if do = division
-                if indexSubs:
-                    res = int(var[0]) / -1
-                else:
-                    res = int(var[0]) / 1
-                for i in range(1, len(var)):
-                    op = int(var[i])
-                    res /= op
+                        res *= op
+                if do == 3: # if do = division
+                    try:
+                        if indexSubs:
+                            res = int(var[0]) / -1
+                        else:
+                            res = int(var[0]) / 1
+                        for i in range(1, len(var)):
+                            op = int(var[i])
+                            res /= op
+                    except ZeroDivisionError:
+                        res = 0
+                length = True # Break the loop
 
-            length = True # Break the loop
+            except ValueError:
+                print(f"{l[lS][5]} [{o[do][lS][0]}] [!]") # There's only one digit, add more. or you're not using the right sign [do].
+                print(sep)
+                continue
 
             print(sep)
             print(f"{l[lS][6]} {o[do][lS][1]} {v[lS][1]}: {res}  [!]\n") # The total of the [do] [variation].
